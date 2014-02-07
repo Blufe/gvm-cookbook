@@ -1,26 +1,48 @@
-gvm Cookbook
-============
+# gvm Cookbook
+
 Manage go versions with [gvm](https://github.com/moovweb/gvm).
 
 
-Requirements
-------------
-Only tested on Ubuntu 12.04 :p
+## Requirements
+### Platform
+
+* ubuntu (12.04)
+
+## Recipes
+### default
+
+This recipe includes system recipe.
 
 
-Attributes
-----------
-* `node[:gvm][:root_path]`
-    - Install path of gvm (Default: /usr/local/gvm).
+### system
+
+Installs the gvm codebase system-wide (that is, into /usr/local/gvm). 
+
+
+### user
+
+Installs the gvm codebase for a list of users (selected from the node['gvm']['user_installs'] hash).
+
+
+## Attributes
+
+* `node[:gvm][:dest]`
+    - Destination directory of gvm (Default: /usr/local).
+
+* `node[:gvm][:branch]`
+    - GVM branch (Default: master).
 
 * `node[:gvm][:versions]`
-    - Install go version (Default: go1.1.2).
+    - A list of system-wide golang to be built and installed (Default: go1.1.2).
 
-Recipes
--------
-### default
-Install go with gvm.
+* `node[:gvm][:default_version]`
+    - Default go version (Default: go1.1.2).
 
-Usage
------
-Put `recipe[gvm]` in the run list.
+* `node[:gvm][:user_installs]`
+    - A list of user to be installed gvm (Default: empty).
+
+* `node[:gvm][:user_versions]`
+    - A list of golang to be built and installed (Default: go1.1.2).
+
+* `node[:gvm][:user_default_version]`
+    - Default go version (Default: go1.1.2).

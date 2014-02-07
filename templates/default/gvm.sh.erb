@@ -1,1 +1,3 @@
-source <%= node[:gvm][:root_path] %>/scripts/gvm
+#!/bin/sh
+
+[[ -s "<%= @gvm_root %>/scripts/gvm" ]] && . "<%= @gvm_root %>/scripts/gvm"
