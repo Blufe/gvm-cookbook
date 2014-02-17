@@ -35,11 +35,13 @@ define :gvm, :user => nil,
     end
   end
 
-  bash "setup default go version to #{default_go_version}" do
-    user user
-    group group
-    environment 'HOME' => home, 'GVM_ROOT' => gvm_root
-    code "source #{gvm_root}/scripts/gvm && gvm use #{default_go_version} --default"
+  if default_go_version
+    bash "setup default go version to #{default_go_version}" do
+      user user
+      group group
+      environment 'HOME' => home, 'GVM_ROOT' => gvm_root
+      code "source #{gvm_root}/scripts/gvm && gvm use #{default_go_version} --default"
+    end
   end
 
   template "/etc/profile.d/gvm.sh" do

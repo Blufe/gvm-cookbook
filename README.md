@@ -33,16 +33,16 @@ Installs the gvm codebase for a list of users (selected from the node['gvm']['us
     - GVM branch (Default: master).
 
 * `node[:gvm][:versions]`
-    - A list of system-wide golang to be built and installed (Default: go1.1.2).
+    - A list of system-wide golang to be built and installed.
 
 * `node[:gvm][:default_version]`
-    - Default go version (Default: go1.1.2).
+    - Default go version.
 
 * `node[:gvm][:user_installs]`
     - A list of user to be installed gvm (Default: empty).
 
 * `node[:gvm][:user_versions]`
-    - A list of golang to be built and installed (Default: go1.1.2).
+    - A list of golang to be built and installed.
 
 * `node[:gvm][:user_default_version]`
-    - Default go version (Default: go1.1.2).
+    - Default go version.
