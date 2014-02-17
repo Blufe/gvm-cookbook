@@ -1,4 +1,4 @@
-include_recipe 'gvm-cookbook::_package'
+include_recipe 'gvm::_package'
 
 node[:gvm][:user_installs].each do |user|
   gvm do

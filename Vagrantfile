@@ -2,7 +2,7 @@
 # vi: set ft=ruby :
 
 Vagrant.configure('2') do |config|
-  config.vm.hostname = 'gvm-cookbook'
+  config.vm.hostname = 'gvm'
   config.vm.box = 'ubuntu-12.04'
   config.vm.box_url = "http://opscode-vm-bento.s3.amazonaws.com/vagrant/virtualbox/opscode_#{config.vm.box}_chef-provisionerless.box"
   config.omnibus.chef_version = 'latest'
@@ -13,7 +13,7 @@ Vagrant.configure('2') do |config|
     }
 
     chef.run_list = [
-        'recipe[gvm-cookbook::default]'
+        'recipe[gvm::default]'
     ]
   end
 end

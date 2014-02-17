@@ -1,1 +1,1 @@
-include_recipe "gvm-cookbook::system"
+include_recipe "gvm::system"

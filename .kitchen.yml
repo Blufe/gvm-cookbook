@@ -12,12 +12,12 @@ platforms:
 suites:
 - name: default
   run_list:
-    - recipe[gvm-cookbook]
+    - recipe[gvm]
   attributes: {}
 
 - name: user
   run_list:
-    - recipe[gvm-cookbook::user]
+    - recipe[gvm::user]
   attributes:
     gvm:
       user_installs:
