@@ -17,17 +17,17 @@ suites:
     - recipe[gvm]
   attributes:
     gvm:
-      default_version: go1.1.2
+      default_version: go1.2
       versions:
-        - go1.1.2
+        - go1.2
 
 - name: user
   run_list:
     - recipe[gvm::user]
   attributes:
     gvm:
-      user_default_version: go1.1.2
+      user_default_version: go1.2
       user_versions:
-        - go1.1.2
+        - go1.2
       user_installs:
         - vagrant

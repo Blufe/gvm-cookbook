@@ -1,8 +1,8 @@
 #!/usr/bin/env bats
 
 gvm_root="/home/vagrant/.gvm"
-go_version="go1.1.2"
-default_go_version="go1.1.2"
+go_version="go1.2"
+default_go_version="go1.2"
 
 setup() {
   source /etc/profile.d/gvm.sh
@@ -39,20 +39,31 @@ setup() {
   [ $(echo "$output" | grep "GOPATH") = "GOPATH=\"$gvm_root/pkgsets/$go_version/global\"" ]
 }
 
+@test "check vet" {
+  run go tool
+  [ $status -eq 0 ]
+  [ $(echo "$output" | grep -o "vet") = "vet" ]
+}
+
+@test "check godoc" {
+  run godoc fmt
+  [ $status -eq 0 ]
+}
+
 @test "[normal user] go get github.com/codegangsta/cli" {
   run go get github.com/codegangsta/cli
   [ $status -eq 0 ]
 }
 
-@test "[normal user] gvm install go1.2" {
-  run gvm install go1.2
+@test "[normal user] gvm install go1.1.1" {
+  run gvm install go1.1.1
   [ $status -eq 0 ]
   
   run gvm list
   [ $status -eq 0 ]
-  [ $(echo "$output" | grep -o "go1.2") = "go1.2" ]
+  [ $(echo "$output" | grep -o "go1.1.1") = "go1.1.1" ]
   
-  run gvm use go1.2 --default && source /etc/profile.d/gvm.sh
+  run gvm use go1.1.1 --default && source /etc/profile.d/gvm.sh
   echo $output
   [ $status -eq 0 ]
   
@@ -60,9 +71,9 @@ setup() {
   echo $output
   [ $status -eq 0 ]
   echo "$output"
-  [ $(echo "$output" | grep -o "go1.2") = "go1.2" ]
+  [ $(echo "$output" | grep -o "go1.1.1") = "go1.1.1" ]
   
-  run gvm uninstall go1.2
+  run gvm uninstall go1.1.1
   echo $output
   [ $status -eq 0 ]
   

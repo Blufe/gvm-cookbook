@@ -1,7 +1,7 @@
 #!/usr/bin/env bats
 
 gvm_root="/usr/local/gvm"
-go_version="go1.1.2"
+go_version="go1.2"
 
 setup() {
   source /etc/profile.d/gvm.sh
@@ -34,6 +34,17 @@ setup() {
   [ $(echo "$output" | grep "GOPATH") = "GOPATH=\"$gvm_root/pkgsets/$go_version/global\"" ]
 }
 
+@test "check vet" {
+  run go tool
+  [ $status -eq 0 ]
+  [ $(echo "$output" | grep -o "vet") = "vet" ]
+}
+
+@test "check godoc" {
+  run godoc fmt
+  [ $status -eq 0 ]
+}
+
 @test "[normal user] go get github.com/codegangsta/cli" {
   run sudo -u vagrant env PATH=$PATH GOPATH=$GOPATH go get github.com/codegangsta/cli
   [ $status -ne 0 ]
@@ -45,28 +56,28 @@ setup() {
   [ $status -eq 0 ]
 }
 
-@test "[normal user] gvm install go1.2" {
-  run sudo -u vagrant env PATH=$PATH GVM_ROOT=$GVM_ROOT gvm install go1.2
+@test "[normal user] gvm install go1.1.1" {
+  run sudo -u vagrant env PATH=$PATH GVM_ROOT=$GVM_ROOT gvm install go1.1.1
   [ $status -ne 0 ]
   [ $(echo "$output" | grep -o "Permission denied") = "Permission denied" ]
 }
 
-@test "[super user] gvm install go1.2" {
-  run sudo -u root env PATH=$PATH GVM_ROOT=$GVM_ROOT gvm install go1.2
+@test "[super user] gvm install go1.1.1" {
+  run sudo -u root env PATH=$PATH GVM_ROOT=$GVM_ROOT gvm install go1.1.1
   [ $status -eq 0 ]
   
   run gvm list
   [ $status -eq 0 ]
-  [ $(echo "$output" | grep -o "go1.2") = "go1.2" ]
+  [ $(echo "$output" | grep -o "go1.1.1") = "go1.1.1" ]
   
-  run gvm use go1.2 --default && source /etc/profile.d/gvm.sh
+  run gvm use go1.1.1 --default && source /etc/profile.d/gvm.sh
   [ $status -eq 0 ]
   
   run go version
   [ $status -eq 0 ]
-  [ $(echo "$output" | grep -o "go1.2") = "go1.2" ]
+  [ $(echo "$output" | grep -o "go1.1.1") = "go1.1.1" ]
   
-  run sudo -u root env PATH=$PATH GVM_ROOT=$GVM_ROOT gvm uninstall go1.2
+  run sudo -u root env PATH=$PATH GVM_ROOT=$GVM_ROOT gvm uninstall go1.1.1
   [ $status -eq 0 ]
   
   run gvm use $go_version --default && source /etc/profile.d/gvm.sh

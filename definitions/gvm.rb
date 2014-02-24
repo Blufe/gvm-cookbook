@@ -3,12 +3,16 @@ define :gvm, :user => nil,
                    :gvm_dest => nil,
                    :gvm_branch => nil,
                    :go_versions => nil,
+                   :install_vet => nil,
+                   :install_godoc => nil,
                    :default_go_version => nil do
   user = params[:user]
   group = params[:group]
   gvm_dest = params[:gvm_dest]
   gvm_branch = params[:gvm_branch]
   go_versions = params[:go_versions]
+  install_vet = params[:install_vet]
+  install_godoc = params[:install_godoc]
   default_go_version = params[:default_go_version]
   home = user == "root" ? "/root" : "/home/#{user}"
   gvm_root = gvm_dest ? "#{gvm_dest}/gvm" : "#{home}/.gvm" 
@@ -32,6 +36,28 @@ define :gvm, :user => nil,
       environment 'HOME' => home, 'GVM_ROOT' => gvm_root
       code "source #{gvm_root}/scripts/gvm && gvm install #{version}"
       not_if { File.exists?("#{gvm_root}/gos/#{version}") }
+    end
+
+    if install_vet && version.slice(/\d+\.\d+/).to_f >= 1.2
+      bash "installing vet to #{version}" do
+        user user
+        group group
+        environment 'HOME' => home, 'GVM_ROOT' => gvm_root
+        code <<-EOH
+          source #{gvm_root}/scripts/gvm
+          gvm use #{version}
+          go get code.google.com/p/go.tools/cmd/vet
+        EOH
+      end
+    end
+
+    if install_godoc && version.slice(/\d+\.\d+/).to_f >= 1.2
+      bash "installing godoc to #{version}" do
+        user user
+        group group
+        environment 'HOME' => home, 'GVM_ROOT' => gvm_root
+        code "source #{gvm_root}/scripts/gvm && gvm use #{version} && go get code.google.com/p/go.tools/cmd/godoc"
+      end
     end
   end
 
