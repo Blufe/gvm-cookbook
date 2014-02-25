@@ -46,3 +46,9 @@ Installs the gvm codebase for a list of users (selected from the node['gvm']['us
 
 * `node[:gvm][:user_default_version]`
     - Default go version.
+
+* `node[:gvm][:install_vet]`
+    - Install vet. This option will be available over go1.2 (Default: true)
+
+* `node[:gvm][:install_godoc]`
+    - Install godoc. This option will be available over go1.2 (Default: true)
