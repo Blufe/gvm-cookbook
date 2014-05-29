@@ -22,7 +22,7 @@ define :gvm, :user => nil,
     group group
     environment 'HOME' => home
     code <<-SH
-      curl -s https://raw.github.com/moovweb/gvm/master/binscripts/gvm-installer -o /tmp/gvm-installer &&
+      curl -s https://raw.githubusercontent.com/moovweb/gvm/master/binscripts/gvm-installer -o /tmp/gvm-installer &&
       bash /tmp/gvm-installer #{gvm_branch} #{gvm_dest}
       rm   /tmp/gvm-installer
     SH
